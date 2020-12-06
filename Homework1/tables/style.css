@@ -9,24 +9,14 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-img {
-    width: 970px;
-    margin: 0 auto;
-    height: 280px;
-}
-
 #pageTab {
     width: 970px;
     margin: 0 auto;
 }
 
-thead {
+img {
+    width: 970px;
     height: 280px;
-    font-family: monospace;
-    font-size: 72px;
-    font-weight: bold;
-    color: white;
-    vertical-align: center;
 }
 
 #nav_articleTR {
@@ -36,6 +26,7 @@ thead {
 #navTab {
     width: 200px;
     color: white;
+    padding: 5px;
 }
 
 .navList {
@@ -48,6 +39,7 @@ thead {
     font-size: small;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: justify;
+    padding: 5px;   
 }
 
 #footerTR {

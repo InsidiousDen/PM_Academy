@@ -6,7 +6,6 @@
 
 body {
     background-color: #011646;
-    text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -14,6 +13,7 @@ img {
     width: 970px;
     margin: 0 auto;
     height: 280px;
+    display: block;
 }
 
 section {
@@ -43,6 +43,7 @@ nav {
     line-height: 33px;
     padding-top: 5px;
     padding-left: 8px;
+
 }
 
 article {
