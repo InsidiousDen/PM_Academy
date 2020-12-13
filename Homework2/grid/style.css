@@ -10,10 +10,9 @@ body {
     .smile {
         margin: auto;
         height: 90vh;
-        max-width: 750px;
         background: #4CEF98;
         border-radius: 50%;
-    
+        max-width: 750px;
         display: grid;
         grid-template-columns: repeat(5, 20%);
         grid-template-rows: repeat(5, 20%);
