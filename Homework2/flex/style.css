@@ -4,138 +4,49 @@
     box-sizing: border-box;
 }
 
-body {
-    padding: 3%;
-}
-    .smile {
-        margin: auto;
-        height: 90vh;
-        max-width: 650px;
-        background: #4CEF98;
-        border-radius: 50%; 
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .eyes {
-        display: flex;
-        justify-content: center;
-        margin-top: 15%;
-    }
-    
-    .eye-left {
-        background: #ffffff;
-        border-radius: 50%;
-        height: 20vh;
-        width: 20vh;
-        margin-right: 15%;
-    }
-    
-    .eye-right {
-        background: #ffffff;
-        border-radius: 50%;
-        height: 20vh;
-        width: 20vh;
-    }
-    
-    .nose {
-        background: #ffffff;
-        align-self: center;
-        height: 15vh;
-        width: 15vh;
-        margin-top: 5%;
-    }
-    
-    .mouth {
-        background: #ffffff;
-        align-self: center;
-        height: 5vh;
-        width: 40vh;
-        margin-top: 10%;
-    }
-
-@media (max-width: 768px) {
-    .smile {
-        height: 65vh;
-    }  
-
-    .eye-left {
-        height: 15vh;
-        width: 15vh;
-    }
-
-    .eye-right {
-        height: 15vh;
-        width: 15vh;
-    }
- 
-    .nose {
-        height: 10vh;
-        width: 10vh;
-    }
-    
-    .mouth {
-        height: 4vh;
-        width: 30vh;
-    }
+.smile {
+    margin: 5% auto;
+    width: 700px; 
+    height: 700px;
+    background: #4CEF98;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
-@media (max-width: 480px) {
-     .smile {
-        height: 60vh;
-    }  
-
-    .eyes {
-        margin-top: 25%;
-    }
-
-    .eye-left {
-        height: 12vh;
-        width: 12vh;
-    }
-
-    .eye-right {
-        height: 12vh;
-        width: 12vh;
-    }
- 
-    .nose {
-        height: 8vh;
-        width: 8vh;
-    }
-    
-    .mouth {
-        height: 3vh;
-        width: 25vh;
-    }
+.eyes {
+    display: flex;
+    justify-content: center;
+    margin-top: 150px;
 }
 
-@media (max-width: 320px) {
-    .smile {
-        height: 50vh;
-    }
-    
-    .eyes {
-        margin-top: 30%;
-    }
+.eye-left {
+    background: #ffffff;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    margin-right: 15%;
+}
 
-    .eye-left {
-        height: 10vh;
-        width: 10vh;
-    }
+.eye-right {
+    background: #ffffff;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
 
-    .eye-right {
-        height: 10vh;
-        width: 10vh;
-    }
- 
-    .nose {
-        height: 6vh;
-        width: 6vh;
-    }
-    
-    .mouth {
-        height: 3vh;
-        width: 20vh;
-    }
+.nose {
+    background: #ffffff;
+    align-self: center;
+    height: 100px;
+    width: 100px;
+    margin-top: 5%;
+}
+
+.mouth {
+    background: #ffffff;
+    align-self: center;
+    height: 50px;
+    width: 300px;
+    margin-top: 10%;
 }
