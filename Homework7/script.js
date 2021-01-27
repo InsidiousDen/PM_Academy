@@ -1,161 +1,144 @@
-class FileSystem {
-    constructor(files = []) {
-        this.newElement = document.querySelector('.files');
-        this.init(files);
-    }
-    init(files) {
-        files.forEach((fileName) => this.createFile(fileName));
+const fileSystem = {
+  wrapper: document.querySelector(".wrapper"),
+  contextMenu: document.querySelector(".context-menu"),
+  files: document.querySelector(".files"),
+};
 
-        this.newElement.addEventListener('click', () => {
-            if (document.querySelector('.context-menu')) {
-                document.querySelector('.context-menu').remove();
-            }
-        });
+const generateFiles = () => {
+  fileSystem.files.innerHTML = "";
 
-        this.newElement.addEventListener('contextmenu', (event) => {
-            event.preventDefault();
+  fileSystem.files.insertAdjacentHTML(
+    "beforeend",
+    files
+        .map(
+        ({ id, name }) => `
+          <li class="item draggable" data-id=${id}>${name}</li>
+        `
+      )
+      .join("")
+  );    
+};
 
-            const options = event.target === this.newElement ? ['Create'] : ['Rename', 'Delete'];
+const controllerLeftClick = () => {
+  fileSystem.contextMenu.classList.remove("show");
+};
 
-            this.createContextMenu(options, event);
-        });
+const controllerRightClick = (e) => {
+  e.preventDefault();
 
-        this.newElement.addEventListener('dragstart', (event) => {
-            event.target.classList.add('selected');
-        });
+  const { clientX, clientY } = e;
+  currentFile = Number(e.target.dataset.id);
 
-        this.newElement.addEventListener('dragend', (event) => {
-            event.target.classList.remove('selected');
-        });
+  fileSystem.contextMenu.style.left = `${clientX - 10}px`;
+  fileSystem.contextMenu.style.top = `${clientY - 10}px`;
+  fileSystem.contextMenu.classList.add("show");
+  fileSystem.contextMenu.innerHTML = "";
 
-        this.newElement.addEventListener('dragover', (event) => {
-            event.preventDefault();
+  if (e.target.classList.contains("item")) {
+    fileSystem.contextMenu.insertAdjacentHTML(
+      "beforeend",
+      `
+      <li data-action="rename">Rename</li>
+      <li data-action="delete">Delete</li>
+      `
+    );
+  } else {
+    fileSystem.contextMenu.insertAdjacentHTML(
+      "beforeend",
+      `
+      <li data-action="create">Create</li>
+      `
+    );
+  }
+};
 
-            const activeElement = this.newElement.querySelector('.selected');
-            const targetElement = event.target;
 
-            const isMoveable =
-                activeElement !== targetElement && targetElement.classList.contains('item');
+const createFile = () => {
+  const fileName = prompt("Enter new file name");
 
-            if (!isMoveable) {
-                return;
-            }
+  if (fileName === null || fileName === "") return;
 
-            const nextElement = this.getNextFile(event.clientX, targetElement);
+  files.push({
+    id: Math.random(),
+    name: fileName,
+    draggable: true,
+  });
 
-            if (
-                (nextElement && activeElement === nextElement.previousElementSibling) ||
-                activeElement === nextElement
-            ) {
-                return;
-            }
+  generateFiles();
+};
 
-            this.newElement.insertBefore(activeElement, nextElement);
-        });
-    }
-    createFile(fileName) {
-        const file = this.createElement(
-            'li',
-            {
-                className: 'item',
-                draggable: true
-            },
-            fileName
-        );
-        this.newElement.append(file);
-    }
+const renameFile = (id) => {
+  const fileName = prompt("Enter new file name", name);
 
-    removeFile() {
-        while (this.selectedElement.length > 0) {
-            this.selectedElement.pop().remove();
+  if (fileName === null || fileName === "") return;
+
+  files = files.map((file) =>
+    file.id === id
+      ? {
+          id,
+          name: fileName,
         }
-    }
-    getNextFile = (cursorPos, targetElement) => {
-        const targetElementPos = targetElement.getBoundingClientRect();
-        const targetElementFocus = targetElementPos.x + targetElementPos.width / 2;
+      : file
+  );
 
-        const nextElement =
-            cursorPos < targetElementFocus
-                ? targetElement
-                : targetElement.nextElementSibling;
+  generateFiles();
+};
 
-        return nextElement;
-    };
-    createContextMenu(options, event) {
-        if (document.querySelector('.context-menu')) {
-            document.querySelector('.context-menu').remove();
-        }
+const removeFile = (id) => {
+  files = files.filter((file) => file.id !== id);
 
-        const { clientX, clientY, target } = event;
+  generateFiles();
+};
 
-        const optionHandlers = {
-            Create: () => {
-                const fileName = prompt('Enter new file name');
-                if (fileName === '') {
-                    alert('Please, enter correct file name');
-                } else if (!fileName) {
-                    alert('Adding canceled');
-                } else {
-                    this.createFile(fileName);
-                }
-            },
-            Rename: () => {
-                const fileName = prompt('Enter new file name', target.innerText);
-                if (fileName === '') {
-                    alert('Please, enter correct file name');
-                } else if (!fileName) {
-                    alert('Adding canceled');
-                } else {
-                    target.innerText = fileName;
-                    target.className = 'item';
-                }
-            },
-            Delete: () => {
-                this.selectedElement.push(target);
-                this.removeFile();
-            }
-        };
+const controllerContextClick = (e) => {
+  switch (e.target.dataset.action) {
+    case "create":
+      createFile();
+      break;
+    case "rename":
+      renameFile(currentFile);
+      break;
+    case "delete":
+      removeFile(currentFile);
+      break;
+    default:
+      return;
+  }
+};
 
-        const menu = this.createElement('ul', {
-            className: 'context-menu',
-            children: options.map((optionName) =>
-                this.createElement('li', { onclick: optionHandlers[optionName] }, optionName)
-            )
-        });
-
-        menu.style.left = `${clientX}px`;
-        menu.style.top = `${clientY}px`;
-
-        this.newElement.append(menu);
-    }
-    createElement(tagName, props = {}, innerText) {
-        const $el = document.createElement(tagName);
-
-        for (const propName in props) {
-            if (propName === 'children' && props.children) {
-                $el.append(...props.children);
-            } else if (typeof props[propName] !== 'undefined') {
-                $el[propName] = props[propName];
-            }
-        }
-
-        if (innerText) {
-            $el.innerText = innerText;
-        }
-
-        return $el;
-    }
-}
-
-const filesArr = [
-    'photo-001.jpg',
-    'photo-002.jpg',
-    'funny-video.mkv',
-    'crazy frog.mp3',
-    'test.json',
-    'index.html',
-    'hello-world.js'
+let files = [
+  {
+    id: 1,
+    name: "photo-001.jpg",
+  },
+  {
+    id: 2,
+    name: "photo-002.jpg",
+  },
+  {
+    id: 3,
+    name: "funny-video.mkv",
+  },
+  {
+    id: 4,
+    name: "crazy frog.mp3",
+  },
+  {
+    id: 5,
+    name: "test.json",
+  },
+  {
+    id: 6,
+    name: "index.html",
+  },
+  {
+    id: 7,
+    name: "hello-world.js",
+  },
 ];
-const fileSystem = new FileSystem(filesArr);
 
+fileSystem.contextMenu.addEventListener("click", controllerContextClick);
+fileSystem.wrapper.addEventListener("click", controllerLeftClick);
+fileSystem.wrapper.addEventListener("contextmenu", controllerRightClick);
 
+generateFiles();
