@@ -50,6 +50,6 @@ ul {
     background-color: gray;
     cursor: pointer;
 }
-.show{ 
+.visible{ 
     display: inline-block;
 }

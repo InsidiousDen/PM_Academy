@@ -20,7 +20,7 @@ const generateFiles = () => {
 };
 
 const controllerLeftClick = () => {
-  fileSystem.contextMenu.classList.remove("show");
+  fileSystem.contextMenu.classList.remove("visible");
 };
 
 const controllerRightClick = (e) => {
@@ -29,9 +29,9 @@ const controllerRightClick = (e) => {
   const { clientX, clientY } = e;
   currentFile = Number(e.target.dataset.id);
 
-  fileSystem.contextMenu.style.left = `${clientX - 10}px`;
-  fileSystem.contextMenu.style.top = `${clientY - 10}px`;
-  fileSystem.contextMenu.classList.add("show");
+  fileSystem.contextMenu.style.left = `${clientX}px`;
+  fileSystem.contextMenu.style.top = `${clientY}px`;
+  fileSystem.contextMenu.classList.add("visible");
   fileSystem.contextMenu.innerHTML = "";
 
   if (e.target.classList.contains("item")) {
